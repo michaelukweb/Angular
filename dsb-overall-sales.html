@@ -1,0 +1,315 @@
+<div id="overall-sales" data-ng-controller="dashboardCtrl">
+    <div class="row">
+        <div id="search_row" class="col-lg-12">
+            <div class="widget bg-white">
+                <form class="form-inline form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Start</label>
+                        <div class="col-sm-10">
+                            <input type="date" ng-model="datetoday" value="{{datetoday}}" class="form-control"> </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">End</label>
+                        <div class="col-sm-10">
+                            <input type="date" ng-model="datetoday2" value="{{datetoday2}}" class="form-control"> </div>
+                    </div>
+                    <button type="button" ng-click="getdataSoft()" class="btn btn-info btn-sm btn-icon mr5"> <i class="fa fa-refresh"></i> <span>Local Refresh</span> </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4" uib-popover="Products Sold at Full RRP (Excluding Gift Cards)" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Employee Sales Figures</span>
+                    <span class="widget-title"><strong>&pound;{{ gross_sales.employee_orders_totals | number:2 }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Number of Transactions Processed Excluding Refunds" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Customers Served</span>
+                    <span class="widget-title"><strong>{{ summary.total_orders }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Number of Units Sold" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Units Sold</span>
+                    <span class="widget-title"><strong>{{ gross_sales.items_sold }}</strong> <small>{{ gross_sales.sold_total }}</small></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4" uib-popover="Gross Amount of Refunds Processed" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-gbp">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Gross Refunds</span>
+                    <span class="widget-title"><strong>&pound;{{ summary.refunds_total | number:2 }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Number of Refunds Processed" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Total Refunds</span>
+                    <span class="widget-title"><strong>{{ summary.refunds_count }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Number of Units Voided" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Units Voided</span>
+                    <span class="widget-title"><strong>{{ summary.voided_items }}</strong> <small>{{ data_items_voided_value }}</small></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4" uib-popover="Ratio of Units Sold and Customers Served" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">AUS</span>
+                    <span class="widget-title"><strong>{{ total_skus / summary.total_orders | number:3  }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Ratio of Employee Sales Figures and Customers Served" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">A&pound;S</span>
+                    <span class="widget-title"><strong>&pound;{{ summary.total_payments / summary.total_orders | number:2  }}</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Amount of Employee Sales Excluding VAT" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Net Sales</span>
+                    <span class="widget-title"><strong>&pound;{{ summary.net_sales | number:2 }}</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!--<div class="col-md-4 col-lg-4" uib-popover="Total Amount of Employee Sales (Excluding Gift Cards)" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-gbp">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Gross Sales (Excluding Gift Cards)</span>
+                    <span class="widget-title"><strong>&pound;{{ result | number:2 }}</strong></span>
+                </div>
+            </div>
+        </div>-->
+        <div class="col-md-4 col-lg-4" uib-popover="Total Amount and Number of Discounted Employee Sales" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Total Discounts</span>
+                    <span class="widget-title"><strong>&pound;{{ summary.total_discounts | number:2 }}</strong> ({{gross_sales.sold_total_discount_count}})</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4" uib-popover="Total Amount and Number of Magic Skin Trilogy Employee Sales" popover-trigger="mouseenter">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Looks</span>
+                    <span class="widget-title"><strong>&pound;{{ magicPrice | number:2 }}</strong> ({{ magicSum }})</span>
+                </div>
+            </div>
+        </div>
+        <!--This is the same as A£S-->
+        <!-- <div class="col-md-4 col-lg-4">
+            <div class="widget bg-white">
+                <div class="widget-icon bg-success pull-left fa fa-group">
+                </div>
+                <div class="overflow-hidden">
+                    <span class="widget-subtitle">Average Spend Per Customer</span>
+                    <span class="widget-title"><strong>{{ summary.total_payments / total_skus | number:2 }}</strong></span>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- <div class="row">
+    <div class="col-sm-12">
+      <div class="panel">
+        <div class="panel-heading border">
+          Line Chart
+        </div>
+        <div class="panel-body">
+          <flot dataset="lineDataset" options="lineOptions" class="chart" height="320"></flot>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!--         <div class="col-md-6">
+            <div class="widget-chart bg-white">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small class="text-uppercase">Orders</small>
+                        <h4 class="no-margin bold text-success">{{ total_orders }}</h4>
+                    </div>
+                </div>
+                <div class="canvas-holder mt5 mb5">
+                    <flot id="pieDataOrders" dataset="pieDataOrders" options="pieOptions" class="chart-sm" height="171"></flot>
+                </div>
+            </div>
+        </div> -->
+<!--         <div class="col-md-6">
+            <div class="widget-chart bg-white">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small class="text-uppercase">Last update</small>
+                        <h4 class="no-margin bold text-success" ng-show="showloaded == 1">{{ updatecnt.total_records }}</h4>
+                    </div>
+                </div>
+                <div class="canvas-holder mt5 mb5" ng-show="showloaded == 1">
+                    <flot id="pieDataset" dataset="pieDataset" options="pieOptions" class="chart-sm" height="171"></flot>
+                </div>
+            </div>
+        </div> -->
+ 
+    <!--End of row -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget-chart bg-white">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small class="text-uppercase">Sales By Type</small>
+                    </div>
+                </div>
+                <div class="canvas-holder mt5 mb5">
+                    <flot id="trans_typeDTS" dataset="trans_type" options="pieOptions" class="chart-sm" height="171"></flot>
+                </div>
+            </div>
+            <div class="widget bg-white">
+                <div class="widget-details">
+                    <div class="row">
+                        <div class="mb20 col-md-6">
+                            <h4 class="no-margin text-uppercase">Sales</h4>
+                            <small class="text-uppercase">Sales by type</small>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-info btn-sm btn-icon pull-right" ng-click='csvSalesByType.generate()' ng-href="{{ csvSalesByType.link() }}" download="sales-by-type.csv">
+                                <i class="glyphicon glyphicon-new-window"></i>
+                                <span>Export</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb0" export-csv="csvSalesByType">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'label '; sortReverseSalesByType = !sortReverseSalesByType">Type</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'qty_open'; sortReverseSalesByType = !sortReverseSalesByType">Open</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'qty_open_val'; sortReverseSalesByType = !sortReverseSalesByType">Val</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'qty_closed'; sortReverseSalesByType = !sortReverseSalesByType">Closed</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'qty_closed_val'; sortReverseSalesByType = !sortReverseSalesByType">Val</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'data'; sortReverseSalesByType = !sortReverseSalesByType">Total</th>
+                                    <th style="text-align: center;" ng-click="sortTypeSalesByType = 'qty_total_val'; sortReverseSalesByType = !sortReverseSalesByType">Val</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="e in trans_type | orderBy:sortTypeSalesByType:sortReverseSalesByType">
+                                    <td>{{ e.label }}</td>
+                                    <td style="text-align: center;">{{ e.qty_open }}</td>
+                                    <td style="text-align: right;">{{ e.qty_open_val | number:2 }}</td>
+                                    <td style="text-align: center;">{{ e.qty_closed }}</td>
+                                    <td style="text-align: right;">{{ e.qty_closed_val | number:2 }}</td>
+                                    <td style="text-align: center;">{{ e.data }}</td>
+                                    <td style="text-align: right;">{{ e.qty_total_val | number:2 }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget bg-white">
+                <div class="widget-details">
+                    <div class="row">
+                        <div class="mb20 col-md-6">
+                            <h4 class="no-margin text-uppercase">Sales</h4>
+                            <small class="text-uppercase">Employee Sales Figures</small>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-info btn-sm btn-icon pull-right" ng-click='csvEmployeeSales.generate()' ng-href="{{ csvEmployeeSales.link() }}" download="employee-sales-figures.csv">
+                                <i class="glyphicon glyphicon-new-window"></i>
+                                <span>Export</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="employee-table" class="table table-bordered table-striped mb0" export-csv="csvEmployeeSales">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'employee'; sortReverseEmpSales = !sortReverseEmpSales">Employee</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'orders'; sortReverseEmpSales = !sortReverseEmpSales">Orders</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'items_sold'; sortReverseEmpSales = !sortReverseEmpSales">Items</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'items_sold'; sortReverseEmpSales = !sortReverseEmpSales"> Looks Sold </th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Total</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Commission 0.5%</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Commission 1%</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Commission 2%</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Employment Status</th>
+                                    <th style="text-align: center;" ng-click="sortTypeEmpSales = 'sales_total'; sortReverseEmpSales = !sortReverseEmpSales">Commission Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="e in gross_sales.employee_orders | orderBy:sortTypeEmpSales:sortReverseEmpSales">
+                                    <td>{{ e.employee }}</td>
+                                    <td style="text-align: center;">{{ e.orders }}</td>
+                                    <td style="text-align: center;">{{ e.items_sold }}</td>
+                                    <td style="text-align: center;"> Looks Sold </td>
+                                    <td style="text-align: right;">{{ e.sales_total | number:2 }}</td>
+                                    <td style="text-align: right;">{{ (e.sales_total / 100 ) * 0.5 | number:2 }}</td>
+                                    <td style="text-align: right;">{{ (e.sales_total / 100 ) * 1 | number:2 }}</td>
+                                    <td style="text-align: right;">{{ (e.sales_total / 100) * 2 | number:2 }}</td>
+                                    <td style="text-align: right;">Active</td>
+                                    <td style="text-align: right;">Level</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td style="text-align: center;">{{gross_sales.employee_orders_cnt}}</td>
+                                    <td style="text-align: center;">{{gross_sales.employee_orders_items}}</td>
+                                    <td style="text-align: right;">{{ gross_sales.employee_orders_totals | number:2 }}</td>
+                                    <td colspan="5"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<div data-ng-controller="appointmentsCtrl">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="widget bg-white">
+          <div class="widget-details">
+            <div class="row">
+              <div class="mb20 col-md-6">
+                <h4 class="no-margin text-uppercase">
+             Appointments productivity
+            </h4>
+              </div>
+              <div class="mb20 col-md-6">
+                <a class="btn btn-info btn-sm btn-icon pull-right" ng-click="csvOverall.generate()" ng-href="{{ csvOverall.link() }}" download="overall-performance.csv">
+                  <i class="glyphicon glyphicon-new-window"></i>
+                  <span>Export</span>
+                </a>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped mb0" export-csv="csvOverall">
+                <thead>
+                  <tr>
+                    <th style="text-align: center;" ng-click="sortType = 'employee'; sortReverse = !sortReverse">
+                      Name
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = 'orders'; sortReverse = !sortReverse">
+                      #
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = 'sales_total'; sortReverse = !sortReverse">
+                      Sales &pound;
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = averageSale; sortReverse = !sortReverse">
+                      A&pound;S
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = 'items_sold'; sortReverse = !sortReverse">
+                      Units Sold
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = aus; sortReverse = !sortReverse">
+                      AUS
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = 'looks_sold'; sortReverse = !sortReverse">
+                      Looks Sold
+                    </th>
+                    <th style="text-align: center;" ng-click="sortType = 'sets_sold'; sortReverse = !sortReverse">
+                      Occupancy
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: center;">Lead Total</td>
+                    <td style="text-align: center;">{{appointments.leadTotal}}</td>
+                    <td style="text-align: center;">{{appointments.leadSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.leadSales / appointments.leadTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.leadUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.leadUnitsSold / appointments.leadUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.leadLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">House Total</td>
+                    <td style="text-align: center;">{{appointments.houseTotal}}</td>
+                    <td style="text-align: center;">{{appointments.houseSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.houseSales / appointments.houseTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.houseUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.houseUnitsSold / appointments.houseUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.houseLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Instant Makeup Magic</td>
+                    <td style="text-align: center;">{{appointments.IMMTotal}}</td>
+                    <td style="text-align: center;">{{appointments.IMMSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.IMMSales / appointments.IMMTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.IMMUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.IMMUnitsSold / appointments.IMMUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.IMMLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Expert Artistry Made Easy</td>
+                    <td style="text-align: center;">{{appointments.EATotal}}</td>
+                    <td style="text-align: center;">{{appointments.EASales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.EASales / appointments.EATotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.EAUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.EAUnitsSold / appointments.EAUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.EALooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Looks Makeover</td>
+                    <td style="text-align: center;">{{appointments.looksTotal}}</td>
+                    <td style="text-align: center;">{{appointments.looksSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.looksSales / appointments.looksTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.looksUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.looksUnitsSold / appointments.looksUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.looksLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Makeup Wardrobing</td>
+                    <td style="text-align: center;">{{appointments.MWTotal}}</td>
+                    <td style="text-align: center;">{{appointments.MWSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.MWSales / appointments.MWTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.MWUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.MWUnitsSold / appointments.MWUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.MWLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Red Carpet Secrets</td>
+                    <td style="text-align: center;">{{appointments.RCTotal}}</td>
+                    <td style="text-align: center;">{{appointments.RCSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.RCSales / appointments.RCTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.RCUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.RCUnitsSold / appointments.RCUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.RCLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Bridal Tutorial</td>
+                    <td style="text-align: center;">{{appointments.BTTotal}}</td>
+                    <td style="text-align: center;">{{appointments.BTSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.BTSales / appointments.BTTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.BTUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.BTUnitsSold / appointments.BTUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.BTLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Complimentary Makeup Session</td>
+                    <td style="text-align: center;">{{appointments.compTotal}}</td>
+                    <td style="text-align: center;">{{appointments.compSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.compSales / appointments.compTotal || 0 | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.compUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.compUnitsSold / appointments.compUnitsSold || 0 | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.compLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">Total</td>
+                    <td style="text-align: center;">{{appointments.numberSold}}</td>
+                    <td style="text-align: center;">{{appointments.totalSales | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.averageSale | currency : '£'}}</td>
+                    <td style="text-align: center;">{{appointments.totalUnitsSold}}</td>
+                    <td style="text-align: center;">{{appointments.totalAUS | number:2}}</td>
+                    <td style="text-align: center;">{{appointments.totalLooksSold}}</td>
+                    <td style="text-align: center;"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<head>
+</head>
+<div class="panel-body" data-ng-controller="employeeReportCtrl">
+    <div class="table-responsive">
+        <div class="input-append">
+            <input type="text" data-ng-model="search" placeholder="Search here..." style="width: 30%; height: 40px;">
+        </div>
+    </div>
+    </br>
+    <uib-accordion>
+        <uib-accordion-group is-open="showSearchForm">
+            <uib-accordion-heading>
+                <table class="table" style="background-color: #e2e2e2;">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-4">Store One</th>
+                            <th class="col-sm-2">Total Transactions</th>
+                            <th class="col-sm-3">AVG Customers attached</th>
+                            <th class="col-sm-3">AVG Emails attached<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-sm-4"></td>
+                            <td class="col-sm-2"> {{ data.total_transactions}}</td>
+                            <td class="col-sm-3">{{ data.avg_cust_transactions}}</td>
+                            <td class="col-sm-3">{{ data.avg_cust_email_transactions || 0}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </uib-accordion-heading>
+            <table class="table" style="background-color: #e2e2e2;">
+                <thead>
+                    <tr>
+                        <th class="col-sm-4">Total</th>
+                        <th class="col-sm-2">Transactions</th>
+                        <th class="col-sm-3">Customers attached</th>
+                        <th class="col-sm-3">Emails attached</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4"></td>
+                        <td class="col-sm-2"> {{ data.total_transactions}}</td>
+                        <td class="col-sm-3">{{ data.total_cust_transactions }}</td>
+                        <td class="col-sm-3">{{ data.total_cust_email_transactions || 0}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- /.row -->
+            <div class="table-responsive">
+                <!--PROBLEMATIC WRAPPER
+                <div class="row">
+                    <div class="mb20 col-md-6">
+                        <small class="text-uppercase">Employee Sales Figures</small>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-info btn-sm btn-icon pull-right ng-click-active" ng-click='csvEmployeeSales.generate()' ng-href="data:text/csv;charset=UTF-8,%22Employee%22%2C%22Total Transaction%22%2C%22Customers attached%22%2C%22Emails attached%22%0A%22%22%2C%220%22%2C%220%22%2C%220.00%22%0A" download="employee-sales-figures.csv" ng-href="{{ csvEmployeeSales.link() }}" download="employee-sales-figures.csv">
+                            <i class="glyphicon glyphicon-new-window"></i>
+                            <span>Export</span>
+                        </a>
+                    </div>
+                </div> -->
+                <div class="bs-component">
+                    <table class="table table-stripped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-sm-4" ng-click="sort('first_name')">Employee
+                                    <span class="glyphicon sort-down" ng-show="sortKey=='first_name'"></span>
+                                </th>
+                                <th class=" col-sm-2" ng-click="sort('total_transactions')">Transaction</th>
+                                <th class="col-sm-2" ng-click="sort('transactions_with_customers')">Customers</th>
+                                <th class="col-sm-1" ng-click="sort('avg_cust_attach')">Customer%</th>
+                                <th class="col-sm-2" ng-click="sort('transactions_with_emails')">Emails Attached</th>
+                                <th class="col-sm-1" ng-click="sort('avg_cust_email')">Email%</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="employee in data.employees|filter:search|orderBy:sortKey:reverse">
+                            <td>{{ employee.first_name + " " + employee.last_name}}</td>
+                            <td>{{ employee.total_transactions}}</td>
+                            <td>{{ employee.transactions_with_customers || 0}}</td>
+                            <td>{{ employee.avg_cust_attach + "%"|| 0 + "%"}}</td>
+                            <td>{{ employee.transactions_with_emails || 0}}</td>
+                            <td>{{ employee.avg_cust_email + "%" || 0 + "%"}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Terminal data-->
+            <br></br>
+            <div class="table-responsive ">
+                <table class="table table-bordered table-striped mb0 ">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-4" ng-click="sort('terminal')">Terminals</th>
+                            <th class="col-sm-2" ng-click="sort('total_transactions')">Total Transaction</th>
+                            <th class="col-sm-3" ng-click="sort('transactions_with_customers')">Customer Attached</th>
+                            <th class="col-sm-3" ng-click="sort('transactions_with_emails')">Emails Attached</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="terminal in data.terminals|filter:search|orderBy:sortKey:reverse">
+                            <td>{{ terminal.terminal }}</td>
+                            <td>{{ terminal.total_transactions}}</td>
+                            <td>{{ terminal.transactions_with_customers }}</td>
+                            <td>{{ terminal.transactions_with_emails || 0}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </uib-accordion-group>
+    </uib-accordion>
+</div>
